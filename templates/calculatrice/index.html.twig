@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ma caculette en ligne{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <form method="post" class="calculator-form">
+                    <div class="form-group">
+                        <input type="text" name="nombre1" class="form-control mb-2" placeholder="Nombre 1">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="nombre2" class="form-control mb-2" placeholder="Nombre 2">
+                    </div>
+                    <div class="form-group">
+                        <select name="operation" class="form-control mb-2">
+                            <option value="addition">Addition</option>
+                            <option value="soustraction">Soustraction</option>
+                            <option value="multiplication">Multiplication</option>
+                            <option value="division">Division</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Calculer</button>
+                    test
+                    <button type="submit" class="btn btn-primary btn-block">Calculer</button>
+                </form>
+                {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger">{{ message }}</div>
+                {% endfor %}
+
+                {% for message in app.flashes('resultat') %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% endfor %}
+                {% if resultat is not null %}
+                    <p class="resultat mt-3">Résultat: <strong>{{ resultat }}</strong></p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
