@@ -23,3 +23,7 @@
 
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+/elasticsearch-8.14.3/
+/kibana-8.14.3/
+/logstash-8.14.3/
