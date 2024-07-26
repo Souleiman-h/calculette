@@ -21,8 +21,11 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
+    - name: Verify bootstrap file
+      run: test -f tests/bootstrap.php
+
     - name: Run PHPUnit tests
       run: ./vendor/bin/phpunit
 
     - name: Check code style
-      run: .php-cs-fixer fix --dry-run --diff
+      run: ./vendor/bin/php-cs-fixer fix --dry-run --diff
