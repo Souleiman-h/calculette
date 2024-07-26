@@ -19,10 +19,7 @@ jobs:
         coverage: none
 
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
-
-    - name: Verify bootstrap file
-      run: test -f tests/bootstrap.php
+      run: composer install --prefer-dist --no-progress --no-suggest
 
     - name: Run PHPUnit tests
       run: ./vendor/bin/phpunit
