@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CalculatriceController extends AbstractController
 {
@@ -14,17 +14,17 @@ class CalculatriceController extends AbstractController
     {
         $resultat = null;
         if ($request->isMethod('POST')) {
-            $nombre1 = floatval($request->request->get('nombre1'));
-            $nombre2 = floatval($request->request->get('nombre2'));
+            $nombre1   = floatval($request->request->get('nombre1'));
+            $nombre2   = floatval($request->request->get('nombre2'));
             $operation = $request->request->get('operation');
 
-            if (!is_numeric($nombre1) || !is_numeric($nombre2)) {
+            if (! is_numeric($nombre1) || ! is_numeric($nombre2)) {
                 $this->addFlash('error', 'Les valeurs fournies doivent être des nombres.');
             } else {
                 $resultat = $this->effectuerOperation($nombre1, $nombre2, $operation);
 
-                if ($resultat !== null) {
-                    $this->addFlash('resultat', (string)$resultat);
+                if (null !== $resultat) {
+                    $this->addFlash('resultat', (string) $resultat);
                 }
             }
 
@@ -32,7 +32,7 @@ class CalculatriceController extends AbstractController
         }
 
         return $this->render('calculatrice/index.html.twig', [
-            'resultat' => $resultat
+            'resultat' => $resultat,
         ]);
     }
 
@@ -46,14 +46,17 @@ class CalculatriceController extends AbstractController
             case 'multiplication':
                 return $nombre1 * $nombre2;
             case 'division':
-                if ($nombre2 != 0) {
+                if (0 != $nombre2) {
                     return $nombre1 / $nombre2;
                 } else {
                     $this->addFlash('error', 'Erreur : Division par zéro');
+
                     return null;
                 }
+                // no break
             default:
                 $this->addFlash('error', 'Opération non reconnue.');
+
                 return null;
         }
     }

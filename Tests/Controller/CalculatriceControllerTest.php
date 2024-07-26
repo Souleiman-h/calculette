@@ -8,11 +8,11 @@ class CalculatriceControllerTest extends WebTestCase
 {
     public function testAddition()
     {
-        $client = static::createClient();
+        $client  = static::createClient();
         $crawler = $client->request('POST', '/calculatrice', [
-            'nombre1' => 10,
-            'nombre2' => 5,
-            'operation' => 'addition'
+            'nombre1'   => 10,
+            'nombre2'   => 5,
+            'operation' => 'addition',
         ]);
 
         $this->assertResponseIsSuccessful();
