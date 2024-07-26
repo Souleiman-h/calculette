@@ -16,11 +16,14 @@ return (new PhpCsFixer\Config())
         'binary_operator_spaces' => [
             'default' => 'align_single_space_minimal',
         ],
-        'concat_space' => ['spacing' => 'one'],
-        'not_operator_with_successor_space' => true,
+        'concat_space' => ['spacing' => 'one'], // 
+        'not_operator_with_successor_space' => true, // 
         'trailing_comma_in_multiline' => ['elements' => ['arrays', 'arguments', 'parameters']],
         'phpdoc_align' => ['align' => 'left'],
         'phpdoc_summary' => false,
+        'single_quote' => true,
+        'semicolon_after_instruction' => true,
+        'indentation_type' => true,
     ])
     ->setFinder($finder)
 ;
