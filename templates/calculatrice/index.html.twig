@@ -25,14 +25,14 @@
                     <button type="submit" class="btn btn-primary btn-block">Calculer</button>
                 </form>
                 {% for message in app.flashes('error') %}
-                    <div class="alert alert-danger">{{ message }}</div>
+                    <div class="alert alert-danger text-center">{{ message }}</div>
                 {% endfor %}
 
                 {% for message in app.flashes('resultat') %}
-                    <div class="alert alert-success">{{ message }}</div>
+                    <div class="alert alert-success text-center">{{ message }}</div>
                 {% endfor %}
                 {% if resultat is not null %}
-                    <p class="resultat mt-3">Résultat: <strong>{{ resultat }}</strong></p>
+                    <p class="resultat mt-3 text-center">Résultat: <strong>{{ resultat }}</strong></p>
                 {% endif %}
             </div>
         </div>
