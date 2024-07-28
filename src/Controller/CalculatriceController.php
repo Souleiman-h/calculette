@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CalculatriceController extends AbstractController
 {
@@ -19,21 +19,22 @@ class CalculatriceController extends AbstractController
             $nombre2   = floatval($request->request->get('nombre2'));
             $operation = $request->request->get('operation');
 
-            if (!is_numeric($nombre1) || !is_numeric($nombre2)) {
+            if (! is_numeric($nombre1) || ! is_numeric($nombre2)) {
                 $this->addFlash('error', 'Les valeurs fournies doivent être des nombres.');
             } else {
                 $resultat = $this->effectuerOperation($nombre1, $nombre2, $operation, $logger);
                 $this->logAction($logger, 'calculate', [
-                    'nombre1' => $nombre1,
-                    'nombre2' => $nombre2,
+                    'nombre1'   => $nombre1,
+                    'nombre2'   => $nombre2,
                     'operation' => $operation,
-                    'resultat' => $resultat,
+                    'resultat'  => $resultat,
                 ]);
 
                 if (null !== $resultat) {
                     $this->addFlash('resultat', (string) $resultat);
                 }
             }
+
             return $this->redirectToRoute('app_calculatrice');
         }
 
@@ -56,6 +57,7 @@ class CalculatriceController extends AbstractController
                     return $nombre1 / $nombre2;
                 } else {
                     $this->addFlash('error', 'Erreur : Division par zéro');
+
                     return null;
                 }
                 // no break
@@ -70,11 +72,10 @@ class CalculatriceController extends AbstractController
     {
         $logEntry = [
             'timestamp' => (new \DateTime())->format('Y-m-d\TH:i:s.uP'),
-            'action' => $action,
-            'data' => $data,
+            'action'    => $action,
+            'data'      => $data,
         ];
 
         $logger->info(json_encode($logEntry), ['channel' => 'app']);
     }
-
 }
