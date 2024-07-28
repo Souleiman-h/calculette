@@ -1,0 +1,2 @@
+[2024-07-28T22:09:39.788950+02:00] app.INFO: {"timestamp":"2024-07-28T22:09:39.788881+02:00","action":"calculate","data":{"nombre1":50,"nombre2":25,"operation":"multiplication","resultat":1250}} {"channel":"app"} []
+[2024-07-28T22:11:59.967557+02:00] app.INFO: {"timestamp":"2024-07-28T22:11:59.967530+02:00","action":"calculate","data":{"nombre1":50,"nombre2":25,"operation":"addition","resultat":75}} {"channel":"app"} []

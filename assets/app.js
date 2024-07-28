@@ -7,4 +7,43 @@ import './bootstrap.js';
  */
 import './styles/app.css';
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+const logToServer = async (url, logEntry) => {
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(logEntry),
+      });
+      if (!response.ok) {
+        console.error('Failed to log entry:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error logging entry:', error);
+    }
+  };
+  
+  const calculate = async (expression) => {
+    try {
+      const response = await fetch('http://localhost:8000/api/calculate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ expression }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        console.log('Result:', data.result);
+      } else {
+        console.error('Error:', data.error);
+      }
+    } catch (error) {
+      console.error('Error calculating:', error);
+    }
+  };
+  
+  // Example usage
+  calculate('1+1');
+  logToServer('http://localhost:8000/api/log', { action: 'button_click', target: '1' });

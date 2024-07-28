@@ -2,15 +2,16 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CalculatriceController extends AbstractController
 {
     #[Route('/', name: 'app_calculatrice')]
-    public function index(Request $request): Response
+    public function index(Request $request, LoggerInterface $logger): Response
     {
         $resultat = null;
         if ($request->isMethod('POST')) {
@@ -18,16 +19,21 @@ class CalculatriceController extends AbstractController
             $nombre2   = floatval($request->request->get('nombre2'));
             $operation = $request->request->get('operation');
 
-            if (! is_numeric($nombre1) || ! is_numeric($nombre2)) {
+            if (!is_numeric($nombre1) || !is_numeric($nombre2)) {
                 $this->addFlash('error', 'Les valeurs fournies doivent être des nombres.');
             } else {
-                $resultat = $this->effectuerOperation($nombre1, $nombre2, $operation);
+                $resultat = $this->effectuerOperation($nombre1, $nombre2, $operation, $logger);
+                $this->logAction($logger, 'calculate', [
+                    'nombre1' => $nombre1,
+                    'nombre2' => $nombre2,
+                    'operation' => $operation,
+                    'resultat' => $resultat,
+                ]);
 
                 if (null !== $resultat) {
                     $this->addFlash('resultat', (string) $resultat);
                 }
             }
-
             return $this->redirectToRoute('app_calculatrice');
         }
 
@@ -50,7 +56,6 @@ class CalculatriceController extends AbstractController
                     return $nombre1 / $nombre2;
                 } else {
                     $this->addFlash('error', 'Erreur : Division par zéro');
-
                     return null;
                 }
                 // no break
@@ -60,4 +65,16 @@ class CalculatriceController extends AbstractController
                 return null;
         }
     }
+
+    private function logAction(LoggerInterface $logger, string $action, array $data): void
+    {
+        $logEntry = [
+            'timestamp' => (new \DateTime())->format('Y-m-d\TH:i:s.uP'),
+            'action' => $action,
+            'data' => $data,
+        ];
+
+        $logger->info(json_encode($logEntry), ['channel' => 'app']);
+    }
+
 }
